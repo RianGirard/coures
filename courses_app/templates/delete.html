@@ -1,0 +1,36 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <title>Delete a Course</title>
+</head>
+<body>
+    <div class="container">
+        <div id="delete">
+            <h3>Are you sure you want to delete the following course?</h3>
+            <form method="POST" action="confirm_destroy">
+                {% csrf_token %}
+                <form>
+                    <div class="row form-group short">
+                        <div class="col indent-small">Name:</div>
+                        <div class="col">{{course.name}}</div>
+                    </div>
+                    <div class="row form-group short">
+                        <div class="col indent-small">Description:</div>
+                        <div class="col">{{course.description.desc}}</div>
+                    </div>
+                    <div class="row">
+                        <input type="hidden" name="desc_id" value="{{course.description.id}}">  <!-- pass the value of the Desc to be deleted -->
+                        <a href="/"><button type="button" class="btn btn-secondary indent">No</button></a> 
+                        <input type="submit" class="btn btn-danger indent" value="Yes! I want to delete this">
+                    </div>
+                </form>
+        </div>
+    </div>
+</body>
+</html>

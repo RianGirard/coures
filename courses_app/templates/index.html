@@ -1,0 +1,63 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <title>Courses</title>
+</head>
+<body>
+    <div class="container">
+        <div class="top">
+            <h1>Add a new course</h1>
+            <form method="POST" action="create">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label for="name">Name</label>
+                    <input type="text" class="form-control" name="name">
+                </div>
+                <div class="form-group">
+                    <label for="description">Description</label>
+                    <textarea class="form-control" name="description"></textarea>
+                </div>
+                <input type="submit" class="btn btn-primary btn-right" value="Add">
+                {% if messages %}
+                <ul class="messages">    
+                    {% for message in messages %}    
+                        <li {% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>    <!-- CSS errors with message.tags -->
+                    {% endfor %}
+                </ul>
+                {% endif %}
+            </form>
+        </div>
+        <div class="bottom">
+            <h1>Courses</h1>
+            <div id="table-contain">
+                <table class="table table-striped table-bordered table-style">
+                    <thead class="thead-light">
+                        <tr>
+                            <th scope="col">Course Name</th>
+                            <th scope="col">Description</th>
+                            <th scope="col">Date Added</th>
+                            <th scope="col">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>            
+                    {% for course in all_courses %}
+                        <tr>
+                            <th scope="row">{{course.name}}</th>
+                            <td>{{course.description.desc}}</td>
+                            <td>{{course.created_at}}</td>
+                            <td><a href="courses/destroy/{{course.description.id}}">Remove</a> | <a href="courses/comment/{{course.description.id}}">Comment</button></a></td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

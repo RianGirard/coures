@@ -1,0 +1,55 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <title>Comments</title>
+</head>
+<body>
+    <div class="container">
+        <div class="top-comment">
+            <h1>Comment on: {{course.name}}</h1>
+            <form method="POST" action="add_comment/{{course.description.id}}">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label for="name">Your Name</label>
+                    <input type="text" class="form-control" name="name" required>
+                </div>
+                <div class="form-group">
+                    <label for="comment">Comment</label>
+                    <input type="text" class="form-control" name="comment" required>
+                </div>
+                <input type="submit" class="btn btn-primary btn-right" value="Add">
+            </form>
+        </div>
+        <div class="bottom">
+            <h1>Comments</h1>
+            <div id="table-contain">
+                <table class="table table-striped table-bordered table-style">
+                    <thead class="thead-light">
+                        <tr>
+                            <th scope="col">Name</th>
+                            <th scope="col">Comment</th>
+                            <th scope="col">Date Added</th>
+                        </tr>
+                    </thead>
+                    <tbody>            
+                    {% for comment in all_comments %}
+                        <tr>
+                            <th scope="row">{{comment.name}}</th>
+                            <td>{{comment.comment}}</td>
+                            <td>{{course.created_at}}</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            <a href="/"><button class="btn btn-primary btn-right">Go Back</button></a>
+        </div>
+    </div>
+</body>
+</html>
